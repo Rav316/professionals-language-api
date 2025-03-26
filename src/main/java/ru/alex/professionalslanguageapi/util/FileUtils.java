@@ -1,5 +1,6 @@
 package ru.alex.professionalslanguageapi.util;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.experimental.UtilityClass;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,5 +28,18 @@ public class FileUtils {
             return fileName.substring(lastDotIndex + 1);
         }
         return "";
+    }
+
+    public static byte[] download(String directory, String fileName) {
+        Path path = Path.of(directory, fileName);
+
+        try {
+            if(!Files.exists(path)) {
+                throw new IOException();
+            }
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            throw new EntityNotFoundException("file " + fileName + " not found");
+        }
     }
 }

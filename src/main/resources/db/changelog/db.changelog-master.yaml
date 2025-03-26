@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/db-create-users-table-1.0.sql
   - include:
       file: db/changelog/db-create-leaderboard-table-1.0.sql
+  - include:
+      file: db/changelog/db-create-exercise-table-1.0.sql

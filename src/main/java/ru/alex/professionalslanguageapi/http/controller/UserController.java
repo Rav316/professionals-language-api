@@ -43,7 +43,7 @@ public class UserController {
                 .body(userService.download(fileName));
     }
 
-    @GetMapping("/{fileName}")
+    @GetMapping("/avatar/{fileName}")
     public ResponseEntity<byte[]> downloadByFileName(@PathVariable("fileName") String fileName) {
         String extension = fileName.substring(fileName.lastIndexOf('.'));
         MediaType mediaType = MediaTypeFactory.getMediaType(extension)

@@ -18,8 +18,6 @@ import ru.alex.professionalslanguageapi.dto.user.UserReadDto;
 import ru.alex.professionalslanguageapi.mapper.user.UserDetailsMapper;
 import ru.alex.professionalslanguageapi.util.FileUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -34,7 +32,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserDetailsMapper userDetailsMapper;
 
-    @Value("${app.avatar-directory}")
+    @Value("${app.directory.avatar}")
     private String avatarDirectory;
 
     @Override
@@ -61,16 +59,7 @@ public class UserService implements UserDetailsService {
     }
 
     public byte[] download(String fileName) {
-        Path path = Path.of(avatarDirectory, fileName);
-
-        try {
-            if(!Files.exists(path)) {
-                throw new IOException();
-            }
-            return Files.readAllBytes(path);
-        } catch (IOException e) {
-            throw new EntityNotFoundException("file " + fileName + " not found");
-        }
+        return FileUtils.download(avatarDirectory, fileName);
     }
 
     public UserReadDto getCurrentUser() {

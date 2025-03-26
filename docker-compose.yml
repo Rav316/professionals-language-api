@@ -12,7 +12,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=1
     volumes:
-      - /build/external_volumes:/app/resources/avatars
+      - /build/external_volumes:/app/resources
   db:
     image: postgres:16
     environment:

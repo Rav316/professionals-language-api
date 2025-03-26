@@ -6,7 +6,9 @@ app:
     total-expiration: 1209600000 # 2 weeks
     subject: User details
     issuer: professionals language API
-  avatar-directory: resources/avatars
+  directory:
+    avatar: resources/avatars
+    exercise: resources/exercises
 
 spring:
   application:
