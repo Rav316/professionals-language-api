@@ -5,7 +5,9 @@ plugins {
 }
 
 group = 'ru.alex'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
+
+apply from: 'version.gradle'
 
 java {
     toolchain {
@@ -28,6 +30,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.liquibase:liquibase-core'
+    implementation "com.auth0:java-jwt:${versions.jwt}"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.openapi}"
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'

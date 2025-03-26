@@ -1,0 +1,22 @@
+app:
+  version: 1.0
+  jwt:
+    secret: ps%6-Bj(b_-sb8BmA1v`k<`+C70FnJv%|fbyQ_gblFnhI""KNhT(xeEe#"7Jd.R`
+    expiration: 43200000 # 12 hours
+    total-expiration: 1209600000 # 2 weeks
+    subject: User details
+    issuer: professionals language API
+
+spring:
+  application:
+    name: professionals-language-api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/language_api
+    username: postgres
+    password: 1
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

@@ -1,0 +1,6 @@
+ext {
+    versions = [
+            'jwt':'4.4.0',
+            'openapi':'2.8.4'
+    ]
+}
