@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.professionalslanguageapi.database.entity.User;
 import ru.alex.professionalslanguageapi.database.repository.UserRepository;
+import ru.alex.professionalslanguageapi.dto.user.UserDetailsDto;
+import ru.alex.professionalslanguageapi.dto.user.UserReadDto;
 import ru.alex.professionalslanguageapi.mapper.user.UserDetailsMapper;
 import ru.alex.professionalslanguageapi.util.FileUtils;
 
@@ -68,5 +71,16 @@ public class UserService implements UserDetailsService {
         } catch (IOException e) {
             throw new EntityNotFoundException("file " + fileName + " not found");
         }
+    }
+
+    public UserReadDto getCurrentUser() {
+        UserDetailsDto userDetailsDto = ((UserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return new UserReadDto(
+                userDetailsDto.id(),
+                userDetailsDto.email(),
+                userDetailsDto.firstName(),
+                userDetailsDto.lastName(),
+                userDetailsDto.avatar()
+        );
     }
 }

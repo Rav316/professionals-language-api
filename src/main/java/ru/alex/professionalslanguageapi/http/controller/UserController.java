@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.professionalslanguageapi.dto.user.UserDetailsDto;
+import ru.alex.professionalslanguageapi.dto.user.UserReadDto;
 import ru.alex.professionalslanguageapi.service.UserService;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -39,5 +40,10 @@ public class UserController {
         return ResponseEntity.ok()
                 .contentType(mediaType)
                 .body(userService.download(fileName));
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserReadDto> getCurrentUser() {
+        return new ResponseEntity<>(userService.getCurrentUser(), OK);
     }
 }
