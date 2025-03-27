@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/db-create-exercise-table-1.0.sql
   - include:
       file: db/changelog/db-create-animal-table-1.0.sql
+  - include:
+      file: db/changelog/db-create-word-table-1.0.sql
