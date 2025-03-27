@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.server.ResponseStatusException;
 import ru.alex.professionalslanguageapi.dto.error.ErrorResponse;
+import ru.alex.professionalslanguageapi.exception.InvalidGameException;
+import ru.alex.professionalslanguageapi.exception.InvalidParamException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -24,7 +26,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             BadCredentialsException.class,
-            IllegalStateException.class
+            IllegalStateException.class,
+            InvalidGameException.class,
+            InvalidParamException.class
     })
     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(RuntimeException ex) {
         ErrorResponse errorResponse = new ErrorResponse(

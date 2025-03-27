@@ -70,7 +70,8 @@ public class JwtFilter extends OncePerRequestFilter {
         return request.getRequestURI().startsWith("/api/auth") ||
                 request.getRequestURI().startsWith("/api/version") ||
                 request.getRequestURI().startsWith("/swagger-ui") ||
-                request.getRequestURI().startsWith("/v3/api-docs");
+                request.getRequestURI().startsWith("/v3/api-docs") ||
+                request.getRequestURI().startsWith("/game");
     }
 
     private void setErrorResponse(HttpServletResponse response, HttpStatus status, Throwable ex) {

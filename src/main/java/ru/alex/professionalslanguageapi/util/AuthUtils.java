@@ -12,6 +12,10 @@ public class AuthUtils {
         return principal.id();
     }
 
+    public static UserDetailsDto getUserDetails() {
+        return ((UserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
     public static String getJwtFromAuthHeader(String authHeader) {
         if (authHeader == null || authHeader.isBlank() || !authHeader.startsWith("Bearer")) {
             throw new JWTVerificationException("JWT token is not valid");

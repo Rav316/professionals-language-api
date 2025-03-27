@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +23,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static ru.alex.professionalslanguageapi.util.AuthUtils.getAuthorizedUserId;
+import static ru.alex.professionalslanguageapi.util.AuthUtils.getUserDetails;
 
 @Service
 @Transactional(readOnly = true)
@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserReadDto getCurrentUser() {
-        UserDetailsDto userDetailsDto = ((UserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        UserDetailsDto userDetailsDto = getUserDetails();
         return new UserReadDto(
                 userDetailsDto.id(),
                 userDetailsDto.email(),
