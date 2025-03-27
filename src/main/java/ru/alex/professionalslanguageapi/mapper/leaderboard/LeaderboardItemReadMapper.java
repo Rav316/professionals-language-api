@@ -14,6 +14,8 @@ public class LeaderboardItemReadMapper extends ReadMapper<LeaderboardItem, Leade
         return new LeaderboardItemReadDto(
                 user.getId(),
                 user.getAvatar(),
+                user.getFirstName(),
+                user.getLastName(),
                 entity.getScore()
         );
     }
