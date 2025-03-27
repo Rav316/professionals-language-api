@@ -36,6 +36,10 @@ public class GameService {
         return gameDataMapper.toDto(wordRepository.fetchGameDataRaw());
     }
 
+    public List<String> getAllAvailableRooms() {
+        return gameStorage.getAllAvailableRooms();
+    }
+
     public Game createGame() {
         Game game = new Game();
         game.setGameData(generateGameData());
@@ -148,6 +152,7 @@ public class GameService {
             player1LeaderboardItem.setScore(player1LeaderboardItem.getScore() + 1);
             player2LeaderboardItem.setScore(player2LeaderboardItem.getScore() + 1);
             leaderboardItemRepository.saveAll(List.of(player1LeaderboardItem, player2LeaderboardItem));
+            gameStorage.games.remove(game.getId());
         }
     }
 
