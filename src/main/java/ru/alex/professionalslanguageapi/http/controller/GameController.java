@@ -18,8 +18,6 @@ import ru.alex.professionalslanguageapi.dto.game.ConnectRequest;
 import ru.alex.professionalslanguageapi.dto.game.Game;
 import ru.alex.professionalslanguageapi.dto.game.GameData;
 import ru.alex.professionalslanguageapi.dto.game.GamePlay;
-import ru.alex.professionalslanguageapi.dto.game.IncrementScoreDto;
-import ru.alex.professionalslanguageapi.dto.leaderboard.LeaderboardItemReadDto;
 import ru.alex.professionalslanguageapi.service.GameService;
 
 import java.util.List;
@@ -75,11 +73,6 @@ public class GameController {
         Game game = gameService.nextQuestion(connectRequest.gameId());
         simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return new ResponseEntity<>(game, OK);
-    }
-
-    @PostMapping("/increment-score")
-    public ResponseEntity<LeaderboardItemReadDto> incrementScore(@Validated @RequestBody IncrementScoreDto incrementScoreDto) {
-        return new ResponseEntity<>(gameService.incrementScore(incrementScoreDto), OK);
     }
 
     @EventListener
