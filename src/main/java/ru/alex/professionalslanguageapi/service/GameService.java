@@ -11,12 +11,15 @@ import ru.alex.professionalslanguageapi.dto.game.Game;
 import ru.alex.professionalslanguageapi.dto.game.GameData;
 import ru.alex.professionalslanguageapi.dto.game.GamePlay;
 import ru.alex.professionalslanguageapi.dto.game.GameStatus;
+import ru.alex.professionalslanguageapi.dto.game.IncrementScoreDto;
 import ru.alex.professionalslanguageapi.dto.game.Player;
 import ru.alex.professionalslanguageapi.dto.game.Question;
+import ru.alex.professionalslanguageapi.dto.leaderboard.LeaderboardItemReadDto;
 import ru.alex.professionalslanguageapi.dto.user.UserDetailsDto;
 import ru.alex.professionalslanguageapi.exception.InvalidGameException;
 import ru.alex.professionalslanguageapi.exception.InvalidParamException;
 import ru.alex.professionalslanguageapi.mapper.game.GameDataMapper;
+import ru.alex.professionalslanguageapi.mapper.leaderboard.LeaderboardItemReadMapper;
 import ru.alex.professionalslanguageapi.storage.GameStorage;
 import ru.alex.professionalslanguageapi.util.AuthUtils;
 
@@ -31,6 +34,7 @@ public class GameService {
     private final WordRepository wordRepository;
     private final LeaderboardItemRepository leaderboardItemRepository;
     private final GameDataMapper gameDataMapper;
+    private final LeaderboardItemReadMapper leaderboardItemReadMapper;
 
     public GameData generateGameData() {
         return gameDataMapper.toDto(wordRepository.fetchGameDataRaw());
@@ -107,6 +111,14 @@ public class GameService {
             finishGame(game);
         }
         return game;
+    }
+
+    @Transactional
+    public LeaderboardItemReadDto incrementScore(IncrementScoreDto incrementScoreDto) {
+        LeaderboardItem leaderboardItem = leaderboardItemRepository.findByUser(incrementScoreDto.userId())
+                .orElseThrow(() -> new EntityNotFoundException("user with id " + incrementScoreDto.userId() + " not found"));
+        leaderboardItem.setScore(leaderboardItem.getScore() + incrementScoreDto.score());
+        return leaderboardItemReadMapper.toDto(leaderboardItemRepository.save(leaderboardItem));
     }
 
     private void checkCorrectAnswer(GamePlay gamePlay, Game game) {
