@@ -35,7 +35,7 @@ public class AuthService {
         userRepository.flush();
         LeaderboardItem leaderboardItem = new LeaderboardItem();
         leaderboardItem.setUser(savedUser);
-        leaderboardItem.setScore(0);
+        leaderboardItem.setScore(0D);
         leaderboardItemRepository.save(leaderboardItem);
         String authToken = jwtService.generateAuthToken(userDto.email());
         return userAuthMapper.toDto(savedUser, authToken);

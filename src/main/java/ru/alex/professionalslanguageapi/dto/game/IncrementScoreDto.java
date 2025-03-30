@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotNull;
 public record IncrementScoreDto(
         @Min(0)
         @NotNull
-        Integer score
+        Double score
 ) {
 }

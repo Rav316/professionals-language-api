@@ -5,6 +5,6 @@ public record LeaderboardItemReadDto(
         String userAvatar,
         String firstName,
         String lastName,
-        Integer score
+        Double score
 ) {
 }

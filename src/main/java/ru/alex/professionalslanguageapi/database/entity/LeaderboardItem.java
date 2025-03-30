@@ -24,5 +24,5 @@ public class LeaderboardItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Integer score;
+    private Double score;
 }
