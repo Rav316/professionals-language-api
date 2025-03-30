@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import ru.alex.professionalslanguageapi.dto.game.ConnectRequest;
 import ru.alex.professionalslanguageapi.dto.game.Game;
@@ -80,6 +81,16 @@ public class GameController {
         String destination = accessor.getDestination();
         if(Objects.equals(destination, "/topic/available-rooms")) {
             simpMessagingTemplate.convertAndSend(destination, getAllAvailableRooms());
+        }
+    }
+
+    @EventListener
+    public void handleDisconnect(SessionDisconnectEvent event) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+        String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
+        log.info("************* player disconnected: {}", username);
+        if(username != null) {
+            
         }
     }
 }

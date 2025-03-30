@@ -1,5 +1,6 @@
 /resources/**
 !/resources/src/main/resources/**
+/external_volumes/**
 
 HELP.md
 .gradle
