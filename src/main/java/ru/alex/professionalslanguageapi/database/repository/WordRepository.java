@@ -40,4 +40,7 @@ public interface WordRepository extends JpaRepository<Word, Integer> {
         ORDER BY w.id, RANDOM();
         """, nativeQuery = true)
     List<Object[]> fetchGameDataRaw();
+
+    @Query(value = "SELECT * FROM word ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    Word getRandomWord();
 }
