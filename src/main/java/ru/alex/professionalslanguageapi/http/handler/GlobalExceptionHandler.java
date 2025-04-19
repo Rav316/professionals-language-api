@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             BadCredentialsException.class,
             IllegalStateException.class,
+            IllegalArgumentException.class,
             InvalidGameException.class,
             InvalidParamException.class
     })

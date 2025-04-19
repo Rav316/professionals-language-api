@@ -61,7 +61,11 @@ public class GameService {
         if(game.getPlayer2() != null) {
             throw new InvalidGameException("Game is already taken");
         }
-        game.setPlayer2(getNewPlayer());
+        Player player2 = getNewPlayer();
+        if(player2.getId().equals(game.getPlayer1().getId())) {
+            throw new IllegalArgumentException("you are already a member of this game");
+        }
+        game.setPlayer2(player2);
         game.setStatus(GameStatus.IN_PROGRESS);
         game.setQuestionIsFinished(false);
         gameStorage.setGame(game);
