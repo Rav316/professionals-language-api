@@ -9,7 +9,6 @@ import ru.alex.professionalslanguageapi.database.repository.LeaderboardItemRepos
 import ru.alex.professionalslanguageapi.database.repository.WordRepository;
 import ru.alex.professionalslanguageapi.dto.game.Game;
 import ru.alex.professionalslanguageapi.dto.game.GameData;
-import ru.alex.professionalslanguageapi.dto.game.GamePlay;
 import ru.alex.professionalslanguageapi.dto.game.GameStatus;
 import ru.alex.professionalslanguageapi.dto.game.Player;
 import ru.alex.professionalslanguageapi.dto.game.Question;
@@ -72,19 +71,19 @@ public class GameService {
         return game;
     }
 
-    public Game gamePlay(GamePlay gamePlay) {
-        if(!gameStorage.getGames().containsKey(gamePlay.gameId())) {
-            throw new EntityNotFoundException("Game with id " + gamePlay.gameId() + " not found");
+    public Game gamePlay(String gameId, Integer selectedAnswer) {
+        if(!gameStorage.getGames().containsKey(gameId)) {
+            throw new EntityNotFoundException("Game with id " + gameId + " not found");
         }
 
-        Game game = gameStorage.getGames().get(gamePlay.gameId());
+        Game game = gameStorage.getGames().get(gameId);
         if(game.getStatus().equals(GameStatus.NEW)) {
             throw new InvalidGameException("The game hasn't started yet");
         }
         if(game.getStatus().equals(GameStatus.FINISHED)) {
             throw new InvalidGameException("Game is already finished");
         }
-        checkCorrectAnswer(gamePlay, game);
+        checkCorrectAnswer(selectedAnswer, game);
 
         return game;
     }
@@ -113,7 +112,18 @@ public class GameService {
         return game;
     }
 
-    private void checkCorrectAnswer(GamePlay gamePlay, Game game) {
+    public void cancelGame(String gameId) {
+        if(!gameStorage.getGames().containsKey(gameId)) {
+            return;
+        }
+        Game game = gameStorage.getGames().get(gameId);
+        if(game.getStatus() != GameStatus.NEW) {
+            throw new InvalidParamException("the game has started or is already finished");
+        }
+        gameStorage.getGames().remove(gameId);
+    }
+
+    private void checkCorrectAnswer(Integer selectedAnswer, Game game) {
         Player currentPlayer = getPlayer(game);
         if(currentPlayer.getSelectedAnswer() != null) {
             throw new InvalidGameException("You have already chosen an answer option");
@@ -121,14 +131,14 @@ public class GameService {
 
         Question currentQuestion = game.getGameData().questions().get(game.getCurrentQuestion());
 
-        if(gamePlay.selectedAnswer().equals(currentQuestion.getCorrectAnswerNumber())) {
+        if(selectedAnswer.equals(currentQuestion.getCorrectAnswerNumber())) {
             currentPlayer.setAnswerIsRight(true);
             currentPlayer.setScore(currentPlayer.getScore() + 1);
             game.setQuestionIsFinished(true);
         } else {
             currentPlayer.setAnswerIsRight(false);
         }
-        currentPlayer.setSelectedAnswer(gamePlay.selectedAnswer());
+        currentPlayer.setSelectedAnswer(selectedAnswer);
         if(game.getPlayer1().getSelectedAnswer() != null && game.getPlayer2().getSelectedAnswer() != null) {
             game.setQuestionIsFinished(true);
         }

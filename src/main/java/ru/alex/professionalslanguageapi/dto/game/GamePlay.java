@@ -1,7 +1,9 @@
 package ru.alex.professionalslanguageapi.dto.game;
 
+import jakarta.validation.constraints.NotNull;
+
 public record GamePlay(
-        String gameId,
+        @NotNull
         Integer selectedAnswer
 ) {
 }
