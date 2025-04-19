@@ -13,7 +13,7 @@ import ru.alex.professionalslanguageapi.interceptor.WebSocketInterceptor;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/game").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/game").setAllowedOriginPatterns("*");
     }
 
     @Override
