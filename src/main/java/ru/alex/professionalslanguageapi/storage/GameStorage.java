@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.alex.professionalslanguageapi.dto.game.Game;
 import ru.alex.professionalslanguageapi.dto.game.GameStatus;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class GameStorage {
         return games.entrySet()
                 .stream()
                 .filter(e -> e.getValue().getStatus() == GameStatus.NEW)
+                .sorted(Comparator.comparingLong(e -> e.getValue().getCreatedAt()))
                 .map(Map.Entry::getKey)
                 .toList();
     }

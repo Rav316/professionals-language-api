@@ -12,4 +12,5 @@ public class Game {
     private Integer winnerPlayer;
     private Integer currentQuestion;
     private Boolean questionIsFinished;
+    private long createdAt;
 }
