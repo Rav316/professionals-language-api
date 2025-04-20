@@ -51,6 +51,7 @@ public class GameController {
         log.info("************* start game request");
         Game game = gameService.createGame();
         simpMessagingTemplate.convertAndSend("/topic/available-rooms", gameService.getAllAvailableRooms());
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return new ResponseEntity<>(game, OK);
     }
 
@@ -59,6 +60,7 @@ public class GameController {
         log.info("************* connect request: {}", gameId);
         Game game = gameService.connectToGame(gameId);
         simpMessagingTemplate.convertAndSend("/topic/available-rooms", gameService.getAllAvailableRooms());
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return new ResponseEntity<>(game, OK);
     }
 
