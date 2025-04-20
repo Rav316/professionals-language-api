@@ -46,6 +46,7 @@ public class GameService {
         game.setPlayer1(getNewPlayer());
         game.setStatus(GameStatus.NEW);
         game.setCurrentQuestion(0);
+        game.setCreatedAt(System.currentTimeMillis());
         gameStorage.setGame(game);
 
         return game;

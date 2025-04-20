@@ -23,7 +23,7 @@ public class GameStorage {
         return games.entrySet()
                 .stream()
                 .filter(e -> e.getValue().getStatus() == GameStatus.NEW)
-                .sorted(Comparator.comparingLong(e -> e.getValue().getCreatedAt()))
+                .sorted(Comparator.comparingLong((Map.Entry<String, Game> e) -> e.getValue().getCreatedAt()).reversed())
                 .map(Map.Entry::getKey)
                 .toList();
     }
