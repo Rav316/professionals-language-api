@@ -46,12 +46,19 @@ public class GameController {
         return gameService.getAllAvailableRooms();
     }
 
+    @GetMapping("/{gameId}")
+    public ResponseEntity<HttpStatus> getGame(@PathVariable("gameId") String gameId) {
+        Game game = gameService.getGame(gameId);
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + gameId, game);
+        return new ResponseEntity<>(OK);
+    }
+
     @PostMapping("/start")
     public ResponseEntity<Game> start() {
         log.info("************* start game request");
         Game game = gameService.createGame();
         simpMessagingTemplate.convertAndSend("/topic/available-rooms", gameService.getAllAvailableRooms());
-        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
+//        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return new ResponseEntity<>(game, OK);
     }
 
@@ -60,7 +67,7 @@ public class GameController {
         log.info("************* connect request: {}", gameId);
         Game game = gameService.connectToGame(gameId);
         simpMessagingTemplate.convertAndSend("/topic/available-rooms", gameService.getAllAvailableRooms());
-        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
+//        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return new ResponseEntity<>(game, OK);
     }
 

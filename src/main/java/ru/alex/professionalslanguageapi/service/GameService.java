@@ -124,6 +124,13 @@ public class GameService {
         gameStorage.getGames().remove(gameId);
     }
 
+    public Game getGame(String gameId) {
+        if(!gameStorage.getGames().containsKey(gameId)) {
+            throw new EntityNotFoundException("Game with id " + gameId + " not found");
+        }
+        return gameStorage.getGames().get(gameId);
+    }
+
     private void checkCorrectAnswer(Integer selectedAnswer, Game game) {
         Player currentPlayer = getPlayer(game);
         if(currentPlayer.getSelectedAnswer() != null) {
